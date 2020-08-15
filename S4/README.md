@@ -31,9 +31,18 @@
 
 #### Batch Normalization:
 Normalizes the incoming bathc at every layer of the network to make amplitudes more prominent by scaling the values of the channel so that next immediate layer can figure out features with more clarity and confidence in order to make better decision by combination of features. It's an essential ingredient of modern DNN architectures and allows having deeper layers and higher learning rates for better training of networks.
+>    used after every layer
+>    never used before last layer
+>    indirectly you have sort of already used it!
+>    nn.BatchNorm2d()
 
 #### DropOut:
 >    A regularization technique that randomly drops weights during traoining to avoid over-dependence on specific features and helps network to focus on other more relevant features for better decision making.
+>    used after every layer
+>    used with small values
+>    is a kind of regularization
+>    not used at a specific location
+>    nn.Dropout2d()
 
 #### Learning Rate:
 >     The factor by which the parameters of the network must be updated, this is usally less than 1 and helps to take fraction of the gradinet wrt. loss while update rule.
