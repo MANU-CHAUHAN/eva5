@@ -1,7 +1,7 @@
 # EVA5
 
 ## S5 was about understanding architectural basics, going through multiple approaches(with code) and topics covered were:
-
+### The steps for assignment are: 1(basic) -> 2(BN)+ 3(Dropout) -> 4(parameter decrease)+ 5(Global Average Pooling) 6(Image Augmentation)+ 7(LR Scheduler).
 - Code 1 - Set up
 
   > The ideas was to first have a basic understanding of the dataset and different images and understanding of the framwework to be used.
