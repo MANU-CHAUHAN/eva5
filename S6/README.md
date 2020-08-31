@@ -10,7 +10,10 @@ Training efficiently requires weights to be in around same scale of distribution
 
 And as we move deeper, the outputs of each layer keeps getting amplified and causes surge in values, resulting in exploding or vanishing gradients.
 
-
+![](plot_test_loss_change.png)
+![](plot_loss_change.png)
+![](plot_test_loss_accuracy.png)
+![](misclassified.PNG)
 
 ![](https://miro.medium.com/max/1328/1*l6E7S7S36mPPwZ2yMlU_og@2x.png)
 
