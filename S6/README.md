@@ -113,7 +113,14 @@ Notice that *H*  is **dependent** on the model (*w* and *b*) and the data (*x* a
 
 ![BN](https://kharshit.github.io/img/batch_normalization.png)
 
+> Helps to reduce internal covariate shift, that is the distribution of inputs for each layer of the network.
+
+> Helps to speed up layers learn independently
+
+> Speeds up learning process
+
+> Has a regularization effect (Each mini-batch is scaled using its mean and standard deviation. This introduces some noise to each layer, providing a regularization effect)
 
 
-Ghost Batch Normalization helps in creating smaller virtual ('ghost') batches using the 'num_split' factor while still having larger batch in memory. The calculations for batch-wise mean and standard deviation are split according to ghost batch size which helps to have more stochasticity and more weight updates as **larger batch/smaller batch** divides the epochs further and allowing more passes for virtual smaller batches. 
+Ghost Batch Normalization helps in creating smaller virtual ('ghost') batches using the 'num_split' factor while still having larger batch in memory. The calculations for batch-wise mean and standard deviation are split according to ghost batch size which helps to have more stochasticity and more weight updates as **larger batch/smaller batch** divides the epochs further and allowing more passes due to virtual smaller batches over the entire training dataset. 
 
