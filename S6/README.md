@@ -108,9 +108,7 @@ Notice that *H*  is **dependent** on the model (*w* and *b*) and the data (*x* a
 
 ## Batch Normalization
 
-
-
-![Batch-Normalization](/Users/manu/Downloads/Batch-Normalization.png)
+![BN](https://kharshit.github.io/img/batch_normalization.png)
 
 
 
