@@ -1,6 +1,6 @@
-# S6 EVA5
+# S7 EVA5
 
-The session was about Batch Normalization and Regularization effects. We focused on why redistribution of data is important or rather why scaling matters for training an eeficient DNN.
+The session was about modularizing the previous code for Batch Normalization and Regularization effects. 
 
 **Overfitting** is a phenomenon that occurs when a machine learning or statistics model is tailored to a particular dataset and is unable to generalise to other datasets. This usually happens in complex models, like deep neural networks.
 
@@ -8,12 +8,31 @@ The session was about Batch Normalization and Regularization effects. We focused
 
 Training efficiently requires weights to be in around same scale of distribution otherwise we get ellipses or contours for errors which make convergence really difficult bcoz one feature would easily update while other would be still stuck in weight space to try to move towards minima. Thus, two different features with different scales would keep trying to update themselves and may never achieve good minima due to different scales of distribution.
 
-And as we move deeper, the outputs of each layer keeps getting amplified and causes surge in values, resulting in exploding or vanishing gradients.
+-----------
+![](S7_Test_loss_change.png)
 
-![](plot_test_loss_change.png)
-![](plot_loss_change.png)
-![](plot_test_loss_accuracy.png)
-![](misclassified.PNG)
+----------
+![](S7_Test_loss_accuracy.png)
+
+----------
+![](S7_Train_loss_change.png)
+
+-------------
+![](S7_gbn_mis.PNG)
+
+-------------
+![](S7_l1_l2_bn_mis.PNG)
+
+--------------
+![](S7_l1_bn_mis.PNG)
+
+-------------
+![](S7_l2_bn_mis.PNG)
+
+------------------
+![](S7_l1_l2_gbn_mis.PNG)
+-----------------------------------
+
 
 ![](https://miro.medium.com/max/1328/1*l6E7S7S36mPPwZ2yMlU_og@2x.png)
 
