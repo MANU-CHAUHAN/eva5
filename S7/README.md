@@ -8,6 +8,8 @@ The session was about modularizing the previous code for Batch Normalization and
 
 Training efficiently requires weights to be in around same scale of distribution otherwise we get ellipses or contours for errors which make convergence really difficult bcoz one feature would easily update while other would be still stuck in weight space to try to move towards minima. Thus, two different features with different scales would keep trying to update themselves and may never achieve good minima due to different scales of distribution.
 
+Colab link for the .ipynb file in repo: https://colab.research.google.com/drive/1qrJw9AaVtTYqh_EfOaSw8sXXiImvL_dI?usp=sharing
+
 ## Batch Normalization
 
 ![BN](https://kharshit.github.io/img/batch_normalization.png)
