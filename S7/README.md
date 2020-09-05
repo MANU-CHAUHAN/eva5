@@ -10,6 +10,42 @@ Training efficiently requires weights to be in around same scale of distribution
 
 Colab link for the .ipynb file in repo: https://colab.research.google.com/drive/1qrJw9AaVtTYqh_EfOaSw8sXXiImvL_dI?usp=sharing
 
+The entry point for .py files in `main.py` which imports other .py files. The idea behind running pipeline using `configuration.cfg` was to allow changing of metrics without user modifying the code. The `.cfg` file is read only once, the first time and thne a dictionary is set as an attribute of the fucntion and utilized several times in entire program flow.
+
+##### `config.cfg` has following strucrure for  S7:
+  **[model_config]**
+
+    workers = 1
+    batch_size = 128
+    pin_memory = 1
+    shuffle = 1
+    epochs = 25
+    combinations = L1+BN, L2+BN, L1+L2+BN, GBN, L1+L2+GBN
+
+  **[optimizer]**
+
+    lr = 0.001
+    optimizer_type = sgd # either sgd or adam or any other from `torch.optim`
+    momentum = 0.9
+
+  **[scheduler]**
+  
+    scheduler_type = steplr # any one of the available from `torch.optim.lr_scheduler`
+    step = 3
+    gamma = 0.379
+    milestones = 5,10,15
+
+  **[regularization]**
+  
+    l1 = 0.001
+    l2 = 4e-4
+
+  **[plots]**
+  
+    to_plot = train_losses, test_losses, train_accuracy, test_accuracy
+
+*These values are read from config file and utilized in the program. This can be further enhanced to include other Learning Rate schedulers. Currently only 2 optimizers are supported SGD and Adam*
+
 ## Batch Normalization
 
 ![BN](https://kharshit.github.io/img/batch_normalization.png)
