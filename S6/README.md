@@ -1,5 +1,7 @@
 # S6 EVA5
 
+#### Note: the `fixed` files are new ones and have removed a stupid mistake in previous commit (regarding the placement of weight decay). I commited at wrong version
+
 The session was about Batch Normalization and Regularization effects. We focused on why redistribution of data is important or rather why scaling matters for training an eeficient DNN.
 
 **Overfitting** is a phenomenon that occurs when a machine learning or statistics model is tailored to a particular dataset and is unable to generalise to other datasets. This usually happens in complex models, like deep neural networks.
