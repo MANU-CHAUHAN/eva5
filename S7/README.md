@@ -65,7 +65,7 @@ The entry point for .py files in `main.py` which imports other .py files. The id
 Ghost Batch Normalization helps in regularization after creating smaller virtual ('ghost') batches using the 'num_split' factor while still having larger batch in memory. The calculations for batch-wise mean and standard deviation are split according to ghost batch size which helps to have smaller batch size and more stochasticity hence more weight updates as **larger batch/smaller batch** divides the epochs further and allowing more passes due to virtual smaller batches over the entire training dataset, while still having large or medium sized total sample batch in memory. Therefore, the benfits of bigger batch size and randomness of smaller in-memory 'virtual' batch.
 
 
-#### from paper: Four things everyone should know to improve Batch Normalization
+#### from paper(although yet to finish): https://openreview.net/forum?id=HJx8HANFDH 
 
 > Why might Ghost Batch Normalization be useful? One reason is its power as a regularizer: due to
 the stochasticity in normalization statistics caused by the random selection of minibatches during
