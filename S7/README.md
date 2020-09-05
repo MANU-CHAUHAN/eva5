@@ -8,6 +8,36 @@ The session was about modularizing the previous code for Batch Normalization and
 
 Training efficiently requires weights to be in around same scale of distribution otherwise we get ellipses or contours for errors which make convergence really difficult bcoz one feature would easily update while other would be still stuck in weight space to try to move towards minima. Thus, two different features with different scales would keep trying to update themselves and may never achieve good minima due to different scales of distribution.
 
+## Batch Normalization
+
+![BN](https://kharshit.github.io/img/batch_normalization.png)
+
+> Helps to reduce internal covariate shift, that is the distribution of inputs for each layer of the network.
+
+> Helps to speed up layers learn independently
+
+> Speeds up learning process
+
+> Has a regularization effect (Each mini-batch is scaled using its mean and standard deviation. This introduces some noise to each layer, providing a regularization effect)
+
+
+Ghost Batch Normalization helps in regularization after creating smaller virtual ('ghost') batches using the 'num_split' factor while still having larger batch in memory. The calculations for batch-wise mean and standard deviation are split according to ghost batch size which helps to have smaller batch size and more stochasticity hence more weight updates as **larger batch/smaller batch** divides the epochs further and allowing more passes due to virtual smaller batches over the entire training dataset, while still having large or medium sized total sample batch in memory. Therefore, the benfits of bigger batch size and randomness of smaller in-memory 'virtual' batch.
+
+
+#### from paper: Four things everyone should know to improve Batch Normalization
+
+> Why might Ghost Batch Normalization be useful? One reason is its power as a regularizer: due to
+the stochasticity in normalization statistics caused by the random selection of minibatches during
+training, Batch Normalization causes the representation of a training example to randomly change
+every time it appears in a different batch of data. Ghost Batch Normalization, by decreasing the
+number of examples that the normalization statistics are calculated over, increases the strength of this
+stochasticity, thereby increasing the amount of regularization. Based on this hypothesis, we would
+expect to see a unimodal effect of the Ghost Batch Normalization size B0 on model performance—
+a large value of B0 would offer somewhat diminished performance as a weaker regularizer, a very
+low value of B0 would have excess regularization and lead to poor performance, and an intermediate
+value would offer the best tradeoff of regularization strength.
+
+
 -----------
 ![](S7_Test_loss_change.png)
 
@@ -123,23 +153,3 @@ Notice that *H*  is **dependent** on the model (*w* and *b*) and the data (*x* a
 2. Less sparse
 3. Not robust to outliers
 4. Punishes large weights more (squared)
-
-
-
-
-
-## Batch Normalization
-
-![BN](https://kharshit.github.io/img/batch_normalization.png)
-
-> Helps to reduce internal covariate shift, that is the distribution of inputs for each layer of the network.
-
-> Helps to speed up layers learn independently
-
-> Speeds up learning process
-
-> Has a regularization effect (Each mini-batch is scaled using its mean and standard deviation. This introduces some noise to each layer, providing a regularization effect)
-
-
-Ghost Batch Normalization helps in creating smaller virtual ('ghost') batches using the 'num_split' factor while still having larger batch in memory. The calculations for batch-wise mean and standard deviation are split according to ghost batch size which helps to have more stochasticity and more weight updates as **larger batch/smaller batch** divides the epochs further and allowing more passes due to virtual smaller batches over the entire training dataset. 
-
