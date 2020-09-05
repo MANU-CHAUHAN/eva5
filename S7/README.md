@@ -12,7 +12,8 @@ Colab link for the .ipynb file in repo: https://colab.research.google.com/drive/
 
 The entry point for .py files in `main.py` which imports other .py files. The idea behind running pipeline using `configuration.cfg` was to allow changing of metrics without user modifying the code. The `.cfg` file is read only once, the first time and thne a dictionary is set as an attribute of the fucntion and utilized several times in entire program flow.
 
-##### `config.cfg` has following strucrure for  S7 (for values that should be interpreted as boolean used 0 for False and any value for True):
+##### `config.cfg` has following strucrure for  S7:
+(for values that should be interpreted as boolean used 0 for False and any value for True, so for shuffle only specifying 0 will make it False, True otherwise, I have stuck to using 1 here)
   **[model_config]**
 
     workers = 1
