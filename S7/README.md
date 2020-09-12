@@ -84,31 +84,6 @@ The entry point for .py files in `main.py` which imports other .py files. The id
 
 
 
-## [With vs. Without Regularisation](https://towardsdatascience.com/intuitions-on-l1-and-l2-regularisation-235f2db4c261) 
-
-Observe the differences between the weight updates with the regularisation parameter *λ* and without it. Here are some intuitions.
-
-**Intuition A:**
-
-Let’s say with Equation 0, calculating *w-H* gives us a *w* value that leads to overfitting. Then, intuitively, Equations {1.1, 1.2 and 2} will reduce the chances of overfitting because introducing *λ* makes us shift *away* from the very *w* that was going to cause us overfitting problems in the previous sentence.
-
-**Intuition B:**
-
-Let’s say an overfitted model means that we have a *w* value that is **perfect**for our model. ‘Perfect’ meaning if we substituted the data (*x*) back in the model, our prediction *ŷ* will be very, very close to the true *y*. Sure, it’s good, but we don’t want perfect. Why? Because this means our model is only meant for the dataset which we trained on. This means our model will produce predictions that are far off from the true value for *other* datasets. So we settle for **less than perfect**, with the hope that our model can also get close predictions with other data. To do this, we ‘taint’ this perfect *w* in Equation 0 with a penalty term *λ.* This gives us Equations {1.1, 1.2 and 2}.
-
-**Intuition C:**
-
-Notice that *H*  is **dependent** on the model (*w* and *b*) and the data (*x* and *y*). Updating the weights based *only* on the model and data in Equation 0 can lead to overfitting, which leads to poor generalisation. On the other hand, in Equations {1.1, 1.2 and 2}, the final value of *w* is not only influenced by the model and data, but *also* by a predefined parameter *λ* which is **independent** of the model and data. Thus, we can prevent overfitting if we set an appropriate value of *λ*, though too large a value will cause the model to be severely underfitted.
-
-**Intuition D:**
-
-1. Weights for different potential training sets will be more similar — which means that the model variance is reduced (in contrast, if we shifted our weights randomly each time just to move away from the overfitted solution, the variance would not change).
-2. We will have a smaller weight for each feature (and/or less features if using L1 reg.). Why does this decrease overfitting? The way I find it easy to think about is that in a typical case we will have a small number of simple features that will explain most of the variance (e.g. most of y will be explained by y_hat = ax+b); but if our model is not regularized, we can add as many more features we want that explain the residual variance of the dataset (e.g. y_at = ax + bx² +cx³ + dx⁴ + e), which would naturally overfit the trainin set. Inroducing a penalty to the sum of the weights means that the model has to “distribute” its weights optimally, so naturally most of this “resource” will go to the simple features that explain most of the variance, with complex features getting small or zero weights.
-
-
-
-
-
 ## L1
 
 1. L1 penalizes the sum of absolute weights
