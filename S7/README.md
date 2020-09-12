@@ -65,22 +65,24 @@ The entry point for .py files in `main.py` which imports other .py files. The id
     momentum = 0.9
 
   **[scheduler]**
-  
+
     scheduler_type = steplr # any one of the available from `torch.optim.lr_scheduler`
     step = 3
     gamma = 0.379
     milestones = 5,10,15
 
   **[regularization]**
-  
+
     l1 = 0.001
     l2 = 4e-4
 
   **[plots]**
-  
+
     to_plot = train_losses, test_losses, train_accuracy, test_accuracy
 
 *These values are read from config file and utilized in the program. This can be further enhanced to include other Learning Rate schedulers. Currently only 2 optimizers are supported SGD and Adam*
+
+
 
 ## [With vs. Without Regularisation](https://towardsdatascience.com/intuitions-on-l1-and-l2-regularisation-235f2db4c261) 
 
