@@ -124,21 +124,19 @@ def get_optimizer(*, model):
 
     lr = 0.01
     momentum = wd = 0.0
-    nesterov = False
     optim_dict = config[constants.OPTIMIZER]
     regul_dict = config[constants.REGULARIZATION]
 
     if constants.LR in optim_dict.keys():
         lr = float(optim_dict[constants.LR])
-    if constants.L2 in regul_dict.keys():
-        wd = float(regul_dict[constants.L2])
-    if constants.MOMENTUM in optim_dict.keys():
-        momentum = float(optim_dict[constants.MOMENTUM])
-    if constants.NESTEROV in optim_dict.keys():
-        nesterov = True
+    # if constants.L2 in regul_dict.keys():
+    #     wd = float(regul_dict[constants.L2])
 
     if constants.SGD in optim_dict[constants.OPTIM_TYPE].split()[0].lower():
-        return torch.optim.SGD(model.parameters(), lr=lr, momentum=momentum, weight_decay=wd, nesterov=nesterov)
+        if constants.MOMENTUM in optim_dict.keys():
+            momentum = float(optim_dict[constants.MOMENTUM])
+        # return torch.optim.SGD(model.parameters(), lr=lr, momentum=momentum, weight_decay=wd)
+        return torch.optim.SGD(model.parameters(), lr=lr, momentum=momentum)
 
     if constants.ADAM in optim_dict[constants.OPTIM_TYPE].split()[0].lower():
         return torch.optim.Adam(model.parameters(), lr=lr, weight_decay=wd)
@@ -152,6 +150,7 @@ def get_scheduler(*, optimizer):
     """
     schdlr_dict = config[constants.SCHEDULER]
     step, gamma = 5, 0.001
+    scheduler = None
     if len(schdlr_dict.keys()) > 0:
         if constants.SCHEDULER_TYPE in schdlr_dict.keys():
             scheduler = schdlr_dict[constants.SCHEDULER_TYPE]
@@ -162,7 +161,7 @@ def get_scheduler(*, optimizer):
         if constants.GAMMA in schdlr_dict.keys():
             gamma = float(schdlr_dict[constants.GAMMA])
 
-        if constants.STEP_LR in scheduler.lower():
+        if scheduler.lower() == constants.STEP_LR:
             return torch.optim.lr_scheduler.StepLR(optimizer=optimizer, step_size=step, gamma=gamma)
 
         if scheduler.lower() == constants.MULTI_STEP_LR and constants.MILESTONES in schdlr_dict.keys():
@@ -172,7 +171,7 @@ def get_scheduler(*, optimizer):
                                                         gamma=gamma)
 
     else:
-        return torch.optim.lr_scheduler.StepLR(optimizer=optimizer, step_size=1)
+        return scheduler
 
 
 def plot(*, title, x_label, y_label, tracker, category):
@@ -216,42 +215,19 @@ def plot_misclassified(*, tracker, main_category):
                 plt.savefig(main_category + "_misclassified.png")
 
 
-def get_dataloader_args():
-    dataloader_args = dict(shuffle=bool(config[constants.MODEL_CONFIG][constants.SHUFFLE]),
-                           batch_size=int(config[constants.MODEL_CONFIG][constants.BATCH_SIZE]),
-                           num_workers=int(config[constants.MODEL_CONFIG][constants.WORKERS]),
-                           pin_memory=bool(
-                               config[constants.MODEL_CONFIG][constants.PIN_MEMORY])) if check_gpu_availability() \
-        else dict(shuffle=bool(config[constants.MODEL_CONFIG][constants.SHUFFLE]),
-                  batch_size=int(config[constants.MODEL_CONFIG][constants.BATCH_SIZE]))
-    return dataloader_args
+dataloader_args = dict(shuffle=bool(config[constants.MODEL_CONFIG][constants.SHUFFLE]),
+                       batch_size=int(config[constants.MODEL_CONFIG][constants.BATCH_SIZE]),
+                       num_workers=int(config[constants.MODEL_CONFIG][constants.WORKERS]),
+                       pin_memory=bool(
+                           config[constants.MODEL_CONFIG][constants.PIN_MEMORY])) if check_gpu_availability() \
+    else dict(shuffle=bool(config[constants.MODEL_CONFIG][constants.SHUFFLE]),
+              batch_size=int(config[constants.MODEL_CONFIG][constants.BATCH_SIZE]))
 
 
 def get_all_models_summary():
     """ Collects all models from file `models.py` and uses torchsummary to print the summary"""
     import inspect
-    from models import model_dummy_file
-    for i in [m[0] for m in inspect.getmembers(model_dummy_file, inspect.isclass) if 'Net' in m[0]]:
+    import model
+    for i in [m[0] for m in inspect.getmembers(model, inspect.isclass) if 'Net' in m[0]]:
         print(f'\nModel name: {i}')
-        print_summary(model=model_dummy_file.str_to_class(i)().to(get_device()), input_size=(1, 28, 28))
-
-
-def show_model_summary(title=None, *, model, input_size):
-    """
-    Calls `summary` method from torchsummary for the passed model and input size
-    :param: title: title to show before printing summary
-    :param model: the model to show the summary, detailed layers and parameters
-    :param input_size: the input data size
-    """
-    if title:
-        print(title)
-    print(summary(model=model, input_size=input_size))
-
-
-def get_dataset_name(*, session):
-    return {"s6": "mnist", "s7": "cifar10"}.get(session.lower(), "mnist")
-
-
-def get_input_size(*, dataset):
-    return {"mnist": (1, 28, 28),
-            "cifar10": (3, 32, 32)}.get(dataset.lower(), "mnist")
+        print_summary(model=model.str_to_class(i)().to(get_device()), input_size=(1, 28, 28))

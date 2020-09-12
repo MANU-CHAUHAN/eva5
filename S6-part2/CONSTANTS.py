@@ -25,4 +25,3 @@ GBN = "gbn"
 EPOCHS = "epochs"
 PLOTS = 'plots'
 TO_PLOT = 'to_plot'
-NESTEROV = "nesterov"

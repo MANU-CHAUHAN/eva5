@@ -1,29 +1,6 @@
 # S7 EVA5
 
-The session was about modularizing the previous code for Batch Normalization and Regularization effects and topics covered were:
->Normal Convolutions
-
->Pointwise Convolutions
-
->Concept of Channels
-
->Receptive Field
-
->Checkerboard Issue
-
->Atrous or Dilated Convolutions
-
->Dense Problems
-
->Deconvolutions or Transpose Convolutions
-
->Pixel Shuffle Algorithm (SKIPPED)
-
->Depthwise Separable Convolution
-
->Spatially Separable Convolution (SKIPPED)
-
->Grouped Convolutions 
+The session was about modularizing the previous code for Batch Normalization and Regularization effects. 
 
 **Overfitting** is a phenomenon that occurs when a machine learning or statistics model is tailored to a particular dataset and is unable to generalise to other datasets. This usually happens in complex models, like deep neural networks.
 
@@ -31,17 +8,7 @@ The session was about modularizing the previous code for Batch Normalization and
 
 Training efficiently requires weights to be in around same scale of distribution otherwise we get ellipses or contours for errors which make convergence really difficult bcoz one feature would easily update while other would be still stuck in weight space to try to move towards minima. Thus, two different features with different scales would keep trying to update themselves and may never achieve good minima due to different scales of distribution.
 
-*The different types of convolutions allowed one to peak into the inner working at deeper levels and understand how various types of convolutions can be helpful in achieving the task at hand.*
-
-> Dilation convolution helps to increase the receptive field of a kernel according to the dilation rate, this helps to provide a wider context from the input of previous layer. These, however, are not good feature extractors and should be followed by a normal 3x3 Conv2d.
-
-> Depthwise separable convolutions helps us to carry out the convolution process in 2 steps, first is to have same number of kernels as input channels. These kernels convolve on each and every channel input separately and then the output is combined together to get feature map of depth= number of kernels. Then second step involves a convolution by Nx(1x1xd) convolution where `d` is depth of feature map=number of output kernels and `N` is the number of 1x1 kernels used after 1st step.
-> This convolution helps to dramatically reduce the number of parameters in a model with the flexibility of reducing or creating channels at 1x1 step.
-
-> Spatially Separable Convolutions aim to break down a feature detector into two parts of convolution process 1st-> Kx1 followed by 2nd-> 1xK convolution.
-> This, like depthwise reduces the number of parameters but are often ignored due to lack of good breakdown of features into 2 kernels except few common edge detectors.
-
-> Grouped convolutions is simply the idea of combining multiple convolutions from same incoming input with different kernel sizes and topology. Good example is Inception model.
+Colab link for the .ipynb file in repo: https://colab.research.google.com/drive/1qrJw9AaVtTYqh_EfOaSw8sXXiImvL_dI?usp=sharing
 
 The entry point for .py files in `main.py` which imports other .py files. The idea behind running pipeline using `configuration.cfg` was to allow changing of metrics without user modifying the code. The `.cfg` file is read only once, the first time and thne a dictionary is set as an attribute of the fucntion and utilized several times in entire program flow.
 
@@ -81,6 +48,110 @@ The entry point for .py files in `main.py` which imports other .py files. The id
     to_plot = train_losses, test_losses, train_accuracy, test_accuracy
 
 *These values are read from config file and utilized in the program. This can be further enhanced to include other Learning Rate schedulers. Currently only 2 optimizers are supported SGD and Adam*
+
+## Batch Normalization
+
+![BN](https://kharshit.github.io/img/batch_normalization.png)
+
+> Helps to reduce internal covariate shift, that is the distribution of inputs for each layer of the network.
+
+> Helps to speed up layers learn independently
+
+> Speeds up learning process
+
+> Has a regularization effect (Each mini-batch is scaled using its mean and standard deviation. This introduces some noise to each layer, providing a regularization effect)
+
+
+Ghost Batch Normalization helps in regularization after creating smaller virtual ('ghost') batches using the 'num_split' factor while still having larger batch in memory. The calculations for batch-wise mean and standard deviation are split according to ghost batch size which helps to have smaller batch size and more stochasticity hence more weight updates as **larger batch/smaller batch** divides the epochs further and allowing more passes due to virtual smaller batches over the entire training dataset, while still having large or medium sized total sample batch in memory. Therefore, the benfits of bigger batch size and randomness of smaller in-memory 'virtual' batch.
+
+
+#### from paper: Four things everyone should know to improve Batch Normalization
+
+> Why might Ghost Batch Normalization be useful? One reason is its power as a regularizer: due to
+the stochasticity in normalization statistics caused by the random selection of minibatches during
+training, Batch Normalization causes the representation of a training example to randomly change
+every time it appears in a different batch of data. Ghost Batch Normalization, by decreasing the
+number of examples that the normalization statistics are calculated over, increases the strength of this
+stochasticity, thereby increasing the amount of regularization. Based on this hypothesis, we would
+expect to see a unimodal effect of the Ghost Batch Normalization size B0 on model performance—
+a large value of B0 would offer somewhat diminished performance as a weaker regularizer, a very
+low value of B0 would have excess regularization and lead to poor performance, and an intermediate
+value would offer the best tradeoff of regularization strength.
+
+
+-----------
+![](S7_Test_loss_change.png)
+
+----------
+![](S7_Test_loss_accuracy.png)
+
+----------
+![](S7_Train_loss_change.png)
+
+-------------
+![](S7_gbn_mis.PNG)
+
+-------------
+![](S7_l1_l2_bn_mis.PNG)
+
+--------------
+![](S7_l1_bn_mis.PNG)
+
+-------------
+![](S7_l2_bn_mis.PNG)
+
+------------------
+![](S7_l1_l2_gbn_mis.PNG)
+-----------------------------------
+
+
+![](https://miro.medium.com/max/1328/1*l6E7S7S36mPPwZ2yMlU_og@2x.png)
+
+
+
+![](https://miro.medium.com/max/1400/1*hC68XigZjhYVCEJbwuVZrQ@2x.png)
+
+
+
+
+
+
+
+![](https://miro.medium.com/max/1400/1*bV49pcaBBMW79adaN5gp_w@2x.png)
+
+
+
+
+
+- #### *η* = 1,
+
+- #### *H = 2x*(*wx+b-y*)
+
+  
+
+![](https://miro.medium.com/max/976/1*k9fevtlt4GIrkIao9fli1g@2x.png)
+
+
+
+![](https://miro.medium.com/max/1400/1*cX7OClIl2O-ZLTVqfB47-A@2x.png)
+
+
+
+![](https://miro.medium.com/max/1400/1*pU47ApyQYzt5Yj_jTpVNFw@2x.png)
+
+
+
+![](https://miro.medium.com/max/1400/1*abHVX1SUuzdiAWcpDq4TzA@2x.png)
+
+
+
+
+
+![](https://miro.medium.com/max/1400/1*5etBmH3PZk7dR0e_H3zA8g@2x.png)
+
+
+
+
 
 ## [With vs. Without Regularisation](https://towardsdatascience.com/intuitions-on-l1-and-l2-regularisation-235f2db4c261) 
 

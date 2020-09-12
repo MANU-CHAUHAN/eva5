@@ -2,39 +2,76 @@
 
 import torch
 import CONSTANTS as const
+from torchtoolbox.transform import Cutout
 from torchvision import datasets, transforms
 from utility import get_config_details, check_gpu_availability
 
 config = get_config_details()
 
 
-def define_train_test_transformers():
-    # Train data transformation
+def define_train_test_transformers(dataset_name=None, *, session):
+    if dataset_name and "mnist" in dataset_name.lower():
 
-    train_transforms = transforms.Compose([transforms.RandomRotation((-9.0, 9.0), fill=(1,)),
-                                           transforms.ToTensor(),
-                                           transforms.Normalize(mean=(0.1307,), std=(0.3081,))
-                                           ])
+        # Train data transformation
 
-    # Test transform
+        train_transforms = transforms.Compose([transforms.RandomRotation((-9.0, 9.0), fill=(1,)),
+                                               transforms.ToTensor(),
+                                               transforms.Normalize(mean=(0.1307,), std=(0.3081,))
+                                               ])
 
-    test_transforms = transforms.Compose([
-        transforms.ToTensor(),
-        transforms.Normalize(mean=(0.1307,), std=(0.3081,))
-    ])
+        # Test transform
+
+        test_transforms = transforms.Compose([
+            transforms.ToTensor(),
+            transforms.Normalize(mean=(0.1307,), std=(0.3081,))
+        ])
+
+    elif "s7" in session.lower() or "cifar10" in dataset_name.lower():
+        mean = tuple([125.30691805 / 255, 122.95039414 / 255, 113.86538318 / 255])
+        standard_deviation = tuple([62.99321928 / 255, 62.08870764 / 255, 66.70489964 / 255])
+        # Train Phase transformations
+        train_transforms = transforms.Compose([
+            transforms.RandomHorizontalFlip(),
+            transforms.RandomCrop(size=32, padding=1),
+            Cutout(p=0.25, scale=(0.02, 0.10)),
+            transforms.ToTensor(),
+            transforms.Normalize(mean=mean, std=standard_deviation)
+
+        ])
+
+        # Test Phase transformations
+        test_transforms = transforms.Compose([
+            transforms.ToTensor(),
+            transforms.Normalize(mean=mean, std=standard_deviation)
+        ])
+
+
+    else:
+        train_transforms = transforms.Compose([transforms.ToTensor()])
+        test_transforms = transforms.Compose([transforms.ToTensor()])
 
     return train_transforms, test_transforms
 
 
-def download_data(*, train_transforms, test_transforms):
-    """Downloads and returns train test MNIST data after the mandatory train and test transforms respectively"""
+def download_data(*, dataset_name, train_transforms, test_transforms):
+    """Downloads and returns train test dataset after the mandatory train and test transforms respectively"""
 
     if not (isinstance(train_transforms, transforms.Compose) and isinstance(test_transforms, transforms.Compose)):
         raise Exception("\n The train and test transformers passed are invalid.")
 
-    train = datasets.MNIST(root='../data', train=True, download=True, transform=train_transforms)  # Train data
+    if dataset_name:
+        if "mnist" in dataset_name.lower():
 
-    test = datasets.MNIST(root='../data', train=False, download=True, transform=test_transforms)  # Test data
+            train = datasets.MNIST(root='../data', train=True, download=True, transform=train_transforms)  # Train data
+
+            test = datasets.MNIST(root='../data', train=False, download=True, transform=test_transforms)  # Test data
+
+        elif "cifar10" in dataset_name.lower():
+            train = datasets.CIFAR10(root='../data', train=True,
+                                     download=True, transform=train_transforms)
+
+            test = datasets.CIFAR10(root='../data', train=False,
+                                    download=True, transform=test_transforms)
 
     return train, test
 
@@ -49,9 +86,6 @@ dataloader_args = dict(shuffle=bool(config[const.MODEL_CONFIG][const.SHUFFLE]),
 
 def get_train_test_dataloaders(*, train_data, test_data, data_loader_args):
     """Generates and returns data loaders for train and test data sets"""
-
-    if not (isinstance(train_data, datasets.MNIST) and isinstance(test_data, datasets.MNIST)):
-        raise Exception("\n Wrong data type passed >> Expected MNIST dataset")
 
     '''train dataloader'''
     train_loader = torch.utils.data.DataLoader(dataset=train_data, **data_loader_args)
