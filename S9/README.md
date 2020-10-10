@@ -14,27 +14,42 @@ Train Results: at 40th Epoch: **Train Accuracy=97.07%** and **Test accuracy=93.3
 *Layers used for GradCAM results: Layer1, Layer2, Layer3, each have two parts hence both Conv layers were plotted and have size greater than 7x7*
 
 **Config file values used:**
+----------------------------
 
-[model_config]
+**[model_config]**
+
 workers = 2
+
 batch_size = 128
+
 pin_memory = 1
+
 shuffle = 1
+
 epochs = 40
+
 combinations = L2
 
-[optimizer]
+**[optimizer]**
+
 lr = 0.0099841
+
 optimizer_type = sgd
+
 momentum = 0.9
+
 nesterov = True
 
-[scheduler]
+**[scheduler]**
+
 scheduler_type = steplr
+
 step = 3
+
 gamma = 0.689
 
-[regularization]
+**[regularization]**
+
 l2 = 21e-3
 
 --------------------------
