@@ -25,4 +25,8 @@ The VIA Project helps to draw bounding boxes for entities of ineterst in images 
 
 
 
+### *As per the Elbow method for finding out optimal cluster number, we can see that it turns out to be k=3 for this dataset of images*
 
+![Elbow method plot for WCSS and Number of clusters](elbow.png)
+
+![clusters](clusters.png)
