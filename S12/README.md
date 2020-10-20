@@ -4,6 +4,9 @@
 
 The VIA Project helps to draw bounding boxes for entities of ineterst in images and then automatically generates JSON formatted file with `centroid` x and y coordinates for bounding box, `heigh` and `width` of the bounding box with the `type` (usually a string decided upon by used).
 
+#### The plots are included below
+
+
 *Example:*
 > "028.jpg81008":{"filename":"028.jpg","size":81008,"regions":[{"shape_attributes":{"name":"rect","x":236,"y":213,"width":320,"height":181},"region_attributes":{"class_name":"hardhat"}},{"shape_attributes":{"name":"rect","x":314,"y":446,"width":244,"height":181},"region_attributes":{"class_name":"mask"}},{"shape_attributes":{"name":"rect","x":186,"y":645,"width":426,"height":308},"region_attributes":{"class_name":"vest"}}],"file_attributes":{}}
 
@@ -28,3 +31,5 @@ The VIA Project helps to draw bounding boxes for entities of ineterst in images 
 ### *As per the Elbow method for finding out optimal cluster number, we can see that it turns out to be k=3 for this dataset of images*
 
 ![Elbow method plot for WCSS and Number of clusters](elbow.png)
+
+![clusters](clusters_plot.png)
