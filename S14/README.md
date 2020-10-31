@@ -2,7 +2,7 @@
 
 #### <u>RCNN, FastRCNN, FasterRCNN and Mask-RCNN</u>
 
-##### *Contributors: Ashna Eldho([](ashnaeldho12@gmail.com)) and Manu Chauhan([](manuchauhan1992@gmail.com))*
+##### *Contributors: Ashna Eldho(ashnaeldho12@gmail.com) and Manu Chauhan(manuchauhan1992@gmail.com, 001colab@gmail.com)*
 
 **Preparation of MiDas' as well as PlaneRCNN's output on HardHat, Mask, Vest, Boots dataset.**
 
