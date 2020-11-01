@@ -78,7 +78,13 @@ For the task:
 
 ##### Planar regions in images:
 Next task involved detecting and reconstructing piecewise planar regions in RGB images. For this we utilised Nvidia's `PlaneRCNN: 3D Plane Detection and Reconstruction from a Single Image` github repo (https://github.com/NVlabs/planercnn). PlaneRCNN uses a variant of Mask R-CNN to detect planes with plane parameters and segmentation mask.
-PlaneRCNN then jointly refines the segmentation masks with a new(relatively, paper was out in Jan 2019) loss function whiuch enforces consistency with a nearby view during training.
+PlaneRCNN then jointly refines the segmentation masks with a new(relatively, paper was out in Jan 2019) loss function whiuch enforces consistency with a nearby view during training. PlaneRCNN helps to extract `robust` planar regions from images which drastically impact the feasibility and accuracy in Computer Vision for tasks such as robotics, augmented reality, virtual reality etc. 
+
+*A difficult yet fundamental task is the inference of a piecewise planar structure from a single RGB image, posing two key challenges:* (from the paper)
+
+1)First, 3D plane reconstruction from a single image is an ill-posed problem, requiring rich scene priors.
+
+2) Second, planar structures abundant in man-made environments often lack textures, requiring global image understanding as opposed to local texture analysis.
 
 ![](https://research.nvidia.com/sites/default/files/publications/planercnn.jpg)
 
