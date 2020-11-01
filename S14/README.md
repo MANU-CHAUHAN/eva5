@@ -48,16 +48,22 @@ Data is an indespensable part of our lives and modern technological innovation, 
 
 #### Prepare depth estimated set of images... wait.... but why ??
 
+![](https://miro.medium.com/max/2363/1*k15IG4yYYk_cgsmXMNpeBg.jpeg)
+
 Depth in images and videos, or in computer vision in general, to date remains one of the most crucial parameters when it comes to automation, robotics, Augmented Reality, surveillance, self driving systems or even advanced photography features in latest cameras.
 
 Depth is a key prerequisite to perform multiple tasks such as perception, navigation, and planning.
 
 Understanding of how far an entity is from the camera has always been a challenging task. Factors such as occlusion, dynamic object in the scene and imperfect stereo correspondence, have made estimation of depth difficult task for computers. Which is the very reason for most companies and solutions integrating laser based sensors for having a 3-D reconstruction view of the world. The major drawback with this, like LiDAR, is the absence of capability of laser based sensors to actually capture the entities in view as different from one another. Eg: for LiDAR, a garbage can is an just an object and so is a human sitting on pedestal, without any knowledge of how one is supposed to be different from one another.
 
+![](https://miro.medium.com/max/770/1*P1bTz2TsAmAjjvienVxtIw.jpeg)
+
 Estimation of depth is not only the first challenging task in this problem domain, the precursor to this challenge is the availability of fine tuned, good quality, large data set.
 
 ##### Monocular Depth Estimation:
-In simple owrds: Monocular Depth Estimation is the task of estimating scene depth using a single image.
+In simple words: Monocular Depth Estimation is the task of estimating scene depth using a single image.
+
+![Sample image (left) and its depth annotation in RGB-D (right)](https://miro.medium.com/max/875/1*4PH2J5iGG1wgnIj4XzQEmg.jpeg)
 
 For preparing depth data set on hardhat, mask, vest and boots, we used Intel's MiDaS github repo (https://github.com/intel-isl/MiDaS), which covers the paper `Towards Robust Monocular Depth Estimation: Mixing Datasets for Zero-shot Cross-dataset Transfer`. The paper discusses the lack of availability independent good quality dataset for training and previous techniques which relied upon large data volume for the task at hand.
 
@@ -73,6 +79,8 @@ For the task:
 ##### Planar regions in images:
 Next task involved detecting and reconstructing piecewise planar regions in RGB images. For this we utilised Nvidia's `PlaneRCNN: 3D Plane Detection and Reconstruction from a Single Image` github repo (https://github.com/NVlabs/planercnn). PlaneRCNN uses a variant of Mask R-CNN to detect planes with plane parameters and segmentation mask.
 PlaneRCNN then jointly refines the segmentation masks with a new(relatively, paper was out in Jan 2019) loss function whiuch enforces consistency with a nearby view during training.
+
+![](https://research.nvidia.com/sites/default/files/publications/planercnn.jpg)
 
 The Mask R-CNN model generates bounding boxes and segmentation masks for each instance of an object in the image.
 
@@ -92,10 +100,14 @@ For the task (on Google Colab):
 13) !python evaluate.py --methods=f --suffix=warping_refine --dataset=inference --numTestingImages=4000 --customDataFolder='/content/gdrive/My Drive/YoloV3/data/customdata/images/'
 14) `--numTestingImages` argument's default value is 100, since our dataset has 3500+ images the argument's value was changed.
 15) `--customDataFolder` is the absolute path of the dataset for which we want to generate Planar images
+16) The results for all the images in our dataset were stored under `inference` directory.
+17) All the resulting, planar segmented images were copied back to G drive.
 
 **Plane representation**
 -----------------------------
-In this project, plane parameters are of absolute scale (in terms of meters). Each plane has three parameters, which equal to plane_normal * plane_offset. Suppose plane_normal is (a, b, c) and plane_offset is d, every point (X, Y, Z) on the plane satisfies, aX + bY + cZ = d. Then plane parameters are (a, b, c)*d. Since plane normal is a unit vector, we can extract plane_normal and plane_offset from their multiplication.
+In this project, plane parameters are of absolute scale (in terms of meters). Each plane has three parameters, which equal to plane_normal * plane_offset. Suppose plane_normal is (a, b, c) and plane_offset is d, every point (X, Y, Z) on the plane satisfies, aX + bY + cZ = d. Then plane parameters are (a, b, c)*d. Since plane normal is a unit vector, we can extract plane_normal and plane_offset from their multiplication. (from Nvidia's repo)
+
+
 
 
 
