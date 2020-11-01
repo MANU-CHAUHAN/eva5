@@ -76,7 +76,7 @@ For the task:
 4) All the inverse depth predicted images are places in `output` folder
 
 
-##### Planar regions in images:
+##### Prepare dataset for Planar regions segmented on our images... wait.... but why ??
 Next task involved detecting and reconstructing piecewise planar regions in RGB images. For this we utilised Nvidia's `PlaneRCNN: 3D Plane Detection and Reconstruction from a Single Image` github repo (https://github.com/NVlabs/planercnn). PlaneRCNN uses a variant of Mask R-CNN to detect planes with plane parameters and segmentation mask.
 PlaneRCNN then jointly refines the segmentation masks with a new(relatively, paper was out in Jan 2019) loss function whiuch enforces consistency with a nearby view during training. PlaneRCNN helps to extract `robust` planar regions from images which drastically impact the feasibility and accuracy in Computer Vision for tasks such as robotics, augmented reality, virtual reality etc. 
 
